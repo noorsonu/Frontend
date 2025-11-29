@@ -37,8 +37,10 @@ export const getImageUrl = (imageData) => {
     return `${API_BASE_URL}/api/${cleanImageData}`;
   }
 
-  // Otherwise, assume it's just a filename
-  return `${API_BASE_URL}/api/uploads/${cleanImageData}`;
+  // Otherwise, assume it's just a legacy filename without a valid path.
+  // These typically point to images that existed only on local/dev storage.
+  // To avoid 404 errors on production, show placeholder instead of calling backend.
+  return '/placeholder-image.svg';
 };
 
 // Function to handle image loading errors
