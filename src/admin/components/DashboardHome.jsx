@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { adminService } from '../services/adminService'
+import { API_BASE_URL } from '../../services/api'
 
 const DashboardHome = ({ stats }) => {
   const [recentUsers, setRecentUsers] = useState([])
@@ -60,7 +61,7 @@ const DashboardHome = ({ stats }) => {
       // Fetch users with timestamp to avoid cache
       const usersUrl = `/api/admin/users?t=${Date.now()}`
       console.log('Fetching users from:', usersUrl)
-      const usersResponse = await fetch(`http://localhost:8081${usersUrl}`, {
+      const usersResponse = await fetch(`${API_BASE_URL}${usersUrl}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
@@ -71,14 +72,14 @@ const DashboardHome = ({ stats }) => {
       
       // Fetch all posts and their comments
       console.log('Fetching posts for comments...')
-      const postsResponse = await fetch(`http://localhost:8081/api/posts?t=${Date.now()}`)
+      const postsResponse = await fetch(`${API_BASE_URL}/api/posts?t=${Date.now()}`)
       const postsData = await postsResponse.json()
       
       let allComments = []
       if (Array.isArray(postsData)) {
         for (const post of postsData) {
           try {
-            const commentsResponse = await fetch(`http://localhost:8081/api/posts/${post.id}/comments`)
+            const commentsResponse = await fetch(`${API_BASE_URL}/api/posts/${post.id}/comments`)
             if (commentsResponse.ok) {
               const postComments = await commentsResponse.json()
               const enrichedComments = postComments.map(comment => ({

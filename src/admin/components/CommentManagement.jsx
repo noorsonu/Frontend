@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { adminService } from '../services/adminService'
-import api from '../../services/api'
+import { API_BASE_URL } from '../../services/api'
 
 const CommentManagement = () => {
   const [commentsByPost, setCommentsByPost] = useState({})
@@ -22,7 +22,7 @@ const CommentManagement = () => {
       console.log('Fetching posts and comments...')
       
       // Fetch posts first
-      const postsResponse = await fetch('http://localhost:8081/api/posts')
+      const postsResponse = await fetch(`${API_BASE_URL}/api/posts`)
       const postsData = await postsResponse.json()
       console.log('Posts received:', postsData)
       
@@ -32,7 +32,7 @@ const CommentManagement = () => {
         // Fetch comments for each post
         for (const post of postsData) {
           try {
-            const commentsResponse = await fetch(`http://localhost:8081/api/posts/${post.id}/comments`)
+            const commentsResponse = await fetch(`${API_BASE_URL}/api/posts/${post.id}/comments`)
             if (commentsResponse.ok) {
               const postComments = await commentsResponse.json()
               if (postComments.length > 0) {
@@ -73,7 +73,7 @@ const CommentManagement = () => {
   const handleDeleteComment = async (commentId) => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
       try {
-        await fetch(`http://localhost:8081/api/admin/comments/${commentId}`, {
+        await fetch(`${API_BASE_URL}/api/admin/comments/${commentId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,

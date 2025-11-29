@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../services/api';
+
 // Utility function to construct proper image URLs
 export const getImageUrl = (imageData) => {
   if (!imageData || typeof imageData !== 'string' || imageData.trim() === '') {
@@ -6,7 +8,13 @@ export const getImageUrl = (imageData) => {
 
   const cleanImageData = imageData.trim();
 
-  // If it's already a full HTTP URL, use it directly
+  // Fix old localhost URLs from when backend ran on http://localhost:8081
+  if (cleanImageData.startsWith('http://localhost:8081')) {
+    const path = cleanImageData.replace('http://localhost:8081', '');
+    return `${API_BASE_URL}${path}`;
+  }
+
+  // If it's already a full HTTP/HTTPS URL (and not localhost), use it directly
   if (cleanImageData.startsWith('http://') || cleanImageData.startsWith('https://')) {
     return cleanImageData;
   }
@@ -18,19 +26,19 @@ export const getImageUrl = (imageData) => {
 
   // For any image path, construct direct backend URL
   if (cleanImageData.startsWith('/api/uploads/')) {
-    return `http://localhost:8081${cleanImageData}`;
+    return `${API_BASE_URL}${cleanImageData}`;
   }
 
   if (cleanImageData.startsWith('/uploads/')) {
-    return `http://localhost:8081/api${cleanImageData}`;
+    return `${API_BASE_URL}/api${cleanImageData}`;
   }
 
   if (cleanImageData.startsWith('uploads/')) {
-    return `http://localhost:8081/api/${cleanImageData}`;
+    return `${API_BASE_URL}/api/${cleanImageData}`;
   }
 
   // Otherwise, assume it's just a filename
-  return `http://localhost:8081/api/uploads/${cleanImageData}`;
+  return `${API_BASE_URL}/api/uploads/${cleanImageData}`;
 };
 
 // Function to handle image loading errors
