@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://backend-afsa.onrender.com';
+const API_BASE_URL = 'https://backend-7mzg.onrender.com';
 
 class ApiService {
   constructor() {
