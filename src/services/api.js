@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8081';
+const API_BASE_URL = 'https://backend-afsa.onrender.com';
 
 class ApiService {
   constructor() {

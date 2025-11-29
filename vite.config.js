@@ -7,14 +7,14 @@ export default defineConfig({
   server: {
     proxy: {
       '/uploads': {
-        target: 'http://localhost:8081',
+        target: 'https://backend-afsa.onrender.com',
         changeOrigin: true,
-        secure: false
+        secure: true
       },
       '/api/uploads': {
-        target: 'http://localhost:8081',
+        target: 'https://backend-afsa.onrender.com',
         changeOrigin: true,
-        secure: false
+        secure: true
       }
     }
   }
