@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://backend-7mzg.onrender.com';
+const API_BASE_URL = 'https://backend-9iu9.onrender.com';
 
 class ApiService {
   constructor() {
