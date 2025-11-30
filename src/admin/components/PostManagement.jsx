@@ -131,24 +131,25 @@ const PostManagement = () => {
         </div>
       )}
 
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Post Management</h1>
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 xs:gap-4">
+        <h1 className="text-lg xs:text-xl sm:text-2xl font-bold text-white">Post Management</h1>
+        <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 xs:gap-3 sm:gap-4 w-full xs:w-auto">
           <input
             type="text"
             placeholder="Search posts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+            className="px-3 py-2 xs:px-4 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 text-sm xs:text-base w-full xs:w-auto"
           />
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 cursor-pointer"
+            className="px-3 py-2 xs:px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-1 xs:gap-2 cursor-pointer text-sm xs:text-base whitespace-nowrap"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 xs:w-5 xs:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
             </svg>
-            <span>Create Post</span>
+            <span className="hidden xs:inline">Create Post</span>
+            <span className="xs:hidden">Create</span>
           </button>
         </div>
       </div>
@@ -168,76 +169,78 @@ const PostManagement = () => {
         />
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-3 xs:space-y-4">
         {filteredPosts.map((post) => (
-          <div key={post.id} className="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
+          <div key={post.id} className="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-3 xs:p-4 sm:p-6">
+            <div className="flex flex-col xs:flex-row items-start justify-between gap-3 xs:gap-4 mb-3 xs:mb-4">
+              <div className="flex items-start gap-2 xs:gap-3 sm:gap-4 w-full xs:w-auto">
+                <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0 text-sm xs:text-base">
                   📝
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white mb-2">{post.title}</h3>
-                  <div className="flex items-center space-x-4 text-sm text-gray-400">
-                    <span>By: {post.author?.username || post.authorName || 'Unknown'}</span>
-                    <span>•</span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm xs:text-base sm:text-lg font-semibold text-white mb-1 xs:mb-2 break-words">{post.title}</h3>
+                  <div className="flex flex-col xs:flex-row xs:items-center gap-1 xs:gap-2 sm:gap-4 text-xs xs:text-sm text-gray-400">
+                    <span className="truncate">By: {post.author?.username || post.authorName || 'Unknown'}</span>
+                    <span className="hidden xs:inline">•</span>
                     <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-1 xs:gap-2 w-full xs:w-auto">
                 <button
                   onClick={() => handleEditPost(post)}
-                  className="text-blue-600 hover:text-blue-900 px-3 py-1 bg-blue-100 rounded-md cursor-pointer"
+                  className="text-blue-600 hover:text-blue-900 px-2 py-1 xs:px-3 bg-blue-100 rounded-md cursor-pointer text-xs xs:text-sm flex-1 xs:flex-none"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeletePost(post.id)}
-                  className="text-red-600 hover:text-red-900 px-3 py-1 bg-red-100 rounded-md cursor-pointer"
+                  className="text-red-600 hover:text-red-900 px-2 py-1 xs:px-3 bg-red-100 rounded-md cursor-pointer text-xs xs:text-sm flex-1 xs:flex-none"
                 >
                   Delete
                 </button>
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="text-sm text-gray-400 mb-2">
-                <strong>Image URL:</strong> {post.imageUrl || 'No image uploaded'}
+            <div className="mb-3 xs:mb-4">
+              <div className="text-xs xs:text-sm text-gray-400 mb-2 break-all">
+                <strong>Image:</strong> {post.imageUrl ? 'Uploaded' : 'No image'}
               </div>
-              <img
-                src={getImageUrl(post.imageUrl)}
-                alt={post.title}
-                className="w-full max-w-md h-48 object-cover rounded-lg"
-                onError={handleImageError}
-              />
+              {post.imageUrl && (
+                <img
+                  src={getImageUrl(post.imageUrl)}
+                  alt={post.title}
+                  className="w-full max-w-xs xs:max-w-sm sm:max-w-md h-32 xs:h-40 sm:h-48 object-cover rounded-lg"
+                  onError={handleImageError}
+                />
+              )}
             </div>
 
-            <div className="mb-4">
-              <p className="text-gray-300 leading-relaxed">
+            <div className="mb-3 xs:mb-4">
+              <p className="text-gray-300 leading-relaxed text-xs xs:text-sm sm:text-base break-words">
                 {post.content ? (
-                  post.content.length > 300 ?
-                    `${post.content.substring(0, 300)}...` :
+                  post.content.length > (window.innerWidth < 640 ? 150 : 300) ?
+                    `${post.content.substring(0, window.innerWidth < 640 ? 150 : 300)}...` :
                     post.content
                 ) : 'No content available'}
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-gray-700">
-              <div className="flex items-center space-x-4">
-                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${post.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+            <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 xs:gap-4 pt-3 xs:pt-4 border-t border-gray-700">
+              <div className="flex flex-wrap items-center gap-2 xs:gap-3 sm:gap-4">
+                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${post.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                   }`}>
                   {post.status || 'Published'}
                 </span>
-                {post.commentsCount && (
-                  <span className="text-sm text-gray-400">💬 {post.commentsCount} comments</span>
+                {post.commentsCount > 0 && (
+                  <span className="text-xs xs:text-sm text-gray-400">💬 {post.commentsCount}</span>
                 )}
-                {post.likesCount && (
-                  <span className="text-sm text-gray-400">❤️ {post.likesCount} likes</span>
+                {post.likesCount > 0 && (
+                  <span className="text-xs xs:text-sm text-gray-400">❤️ {post.likesCount}</span>
                 )}
               </div>
-              <div className="text-sm text-gray-400">
-                Last updated: {new Date(post.updatedAt || post.createdAt).toLocaleString()}
+              <div className="text-xs xs:text-sm text-gray-400 w-full xs:w-auto text-left xs:text-right">
+                Updated: {new Date(post.updatedAt || post.createdAt).toLocaleDateString()}
               </div>
             </div>
           </div>
@@ -245,8 +248,8 @@ const PostManagement = () => {
       </div>
 
       {filteredPosts.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-400 text-lg">No posts found</div>
+        <div className="text-center py-8 xs:py-12">
+          <div className="text-gray-400 text-base xs:text-lg">No posts found</div>
         </div>
       )}
     </div>

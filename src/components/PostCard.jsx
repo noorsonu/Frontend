@@ -125,7 +125,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
       <div className="p-1.5 xs:p-2 sm:p-2.5 md:p-3 lg:p-3.5">
         {/* Title with Time */}
         <div className="flex items-start justify-between mb-1 gap-1">
-          <h3 className="text-xs xs:text-sm sm:text-sm md:text-base lg:text-base font-semibold text-white line-clamp-2 leading-tight flex-1">
+          <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-xl font-bold text-white line-clamp-2 leading-tight flex-1">
             {title}
           </h3>
           <span className="text-gray-400 text-[10px] xs:text-xs sm:text-xs font-medium flex-shrink-0 mt-0.5">
@@ -134,7 +134,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
         </div>
 
         {/* 10 words description */}
-        <p className="text-gray-300 text-xs xs:text-xs sm:text-xs md:text-sm mb-1.5 xs:mb-2 leading-tight">
+        <p className="text-gray-400 text-xs xs:text-xs sm:text-sm md:text-sm mb-1.5 xs:mb-2 leading-tight">
           {truncateText(description, 10)}
         </p>
 
