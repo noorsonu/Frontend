@@ -44,7 +44,7 @@ const QuranVerse = () => {
       
       <div className="text-center space-y-3">
         <div className="p-3 bg-emerald-800/30 rounded-lg border border-emerald-700/20">
-          <p className="text-sm sm:text-base text-emerald-100 mb-2 leading-relaxed font-arabic" dir="rtl">
+          <p className="arabic-text text-emerald-100 mb-2">
             {verse.arabic}
           </p>
           <p className="text-emerald-200 text-xs sm:text-sm italic leading-relaxed">

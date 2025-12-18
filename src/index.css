@@ -1,4 +1,50 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+
+/* Arabic/Urdu Font Classes */
+.font-arabic {
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0.5px;
+}
+
+.font-urdu {
+  font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', serif;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.font-quran {
+  font-family: 'Scheherazade New', 'Amiri', serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 2.5;
+  letter-spacing: 0.5px;
+  text-align: right;
+  direction: rtl;
+}
+
+/* Simple Urdu Text - Easy to Read */
+.urdu-text {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 2;
+  text-align: right;
+  direction: rtl;
+}
+
+/* Arabic Text - Quran Style */
+.arabic-text {
+  font-family: 'Scheherazade New', serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 2.5;
+  text-align: right;
+  direction: rtl;
+  letter-spacing: 0.3px;
+}
 
 /* Twinkling Stars Animation */
 @keyframes twinkle {

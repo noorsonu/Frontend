@@ -202,6 +202,13 @@ export default function Navbar() {
                             >
                               Dua
                             </Link>
+                            <Link
+                              to="/surah"
+                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 cursor-pointer"
+                              onClick={() => setLibraryDropdown(false)}
+                            >
+                              Surah
+                            </Link>
                           </div>
                         )}
                       </div>
@@ -317,6 +324,13 @@ export default function Navbar() {
                             onClick={() => setOpenNav(false)}
                           >
                             Dua
+                          </Link>
+                          <Link
+                            to="/surah"
+                            className="block px-2 py-1 text-sm text-white hover:text-amber-100 transition-colors cursor-pointer"
+                            onClick={() => setOpenNav(false)}
+                          >
+                            Surah
                           </Link>
                         </div>
                       </div>

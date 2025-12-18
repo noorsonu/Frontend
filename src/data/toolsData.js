@@ -54,5 +54,6 @@ export const toolsData = [
     icon: "🌟",
     color: "from-violet-600 to-violet-800",
     description: "99 Beautiful Names of Allah"
-  }
+  },
+
 ];

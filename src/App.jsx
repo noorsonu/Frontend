@@ -20,6 +20,14 @@ import HadithPage from './components/HadithPage'
 import PrayerGuide from './components/PrayerGuide'
 import WazifaCollection from './components/WazifaCollection'
 import ArticlesPage from './components/ArticlesPage'
+import SurahKafirun from './components/SurahKafirun'
+import SurahQadr from './components/SurahQadr'
+import SurahIkhlas from './components/SurahIkhlas'
+import SurahMaun from './components/SurahMaun'
+import SurahTalaq from './components/SurahTalaq'
+import SurahKahf from './components/SurahKahf'
+import SurahWaqiah from './components/SurahWaqiah'
+import Surah from './components/Surah'
 import { PostProvider } from './contexts/PostContext'
 
 const HomePage = () => (
@@ -52,6 +60,14 @@ const App = () => {
           <Route path="/prayer-guide" element={<PrayerGuide />} />
           <Route path="/wazifa" element={<WazifaCollection />} />
           <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/surah" element={<Surah />} />
+          <Route path="/surah-kafirun" element={<SurahKafirun />} />
+          <Route path="/surah-qadr" element={<SurahQadr />} />
+          <Route path="/surah-ikhlas" element={<SurahIkhlas />} />
+          <Route path="/surah-maun" element={<SurahMaun />} />
+          <Route path="/surah-talaq" element={<SurahTalaq />} />
+          <Route path="/surah-kahf" element={<SurahKahf />} />
+          <Route path="/surah-waqiah" element={<SurahWaqiah />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/*" element={<AdminDashboard />} />

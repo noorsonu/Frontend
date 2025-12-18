@@ -26,7 +26,7 @@ const AsmaUlHusna = () => {
       <div className="flex flex-col items-center">
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-full shadow-lg border-2 border-purple-400/50 flex items-center justify-center">
           <div className="text-center px-1">
-            <p className="text-white text-xs sm:text-sm font-medium transition-all duration-500 leading-tight">
+            <p className="arabic-text text-white text-sm transition-all duration-500">
               {asmaUlHusna[currentName]}
             </p>
           </div>
