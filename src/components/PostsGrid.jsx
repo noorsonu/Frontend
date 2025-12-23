@@ -107,11 +107,16 @@ const PostsGrid = () => {
   }, [refreshTrigger]);
   
   // Real-time update for individual post stats
-  const updatePostStats = (postId, newLikeCount, newCommentCount) => {
+  const updatePostStats = (postId, newLikeCount, newCommentCount, isLiked) => {
     setPosts(prevPosts => 
       prevPosts.map(post => 
         post.id === postId 
-          ? { ...post, likeCount: newLikeCount, commentCount: newCommentCount }
+          ? { 
+              ...post, 
+              likeCount: newLikeCount, 
+              commentCount: newCommentCount,
+              liked: isLiked !== undefined ? isLiked : post.liked
+            }
           : post
       )
     );
@@ -139,7 +144,7 @@ const PostsGrid = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-6 auto-rows-fr">
             {currentPosts.map((post) => (
               <PostCard
-                key={post.id}
+                key={`post-${post.id}-${post.liked}-${post.likeCount}`}
                 id={post.id}
                 title={post.title}
                 image={post.image}

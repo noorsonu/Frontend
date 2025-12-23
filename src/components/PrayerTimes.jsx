@@ -21,6 +21,9 @@ const PrayerTimes = () => {
 
   const fetchPrayerTimes = async () => {
     try {
+      // First try to initialize prayer times
+      await api.post('/api/prayer-times/init');
+      
       const response = await api.get('/api/prayer-times');
       if (response && response.length > 0) {
         const lastUpdated = new Date(response[0].updatedAt || response[0].createdAt);
@@ -100,7 +103,7 @@ const PrayerTimes = () => {
       setIsAdmin(parsedUser.email === 'admin@example.com' || parsedUser.role === 'ADMIN');
     }
     
-    updatePrayerTimesAutomatically();
+    fetchPrayerTimes();
     
     return () => clearInterval(timer);
   }, []);

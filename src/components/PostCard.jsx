@@ -33,7 +33,8 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
   useEffect(() => {
     setIsLiked(liked);
     setCurrentLikeCount(likeCount);
-  }, [liked, likeCount]);
+    setRenderKey(prev => prev + 1); // Force re-render when props change
+  }, [liked, likeCount, id]); // Added id to dependencies
 
   // Handle like toggle
   const handleLikeToggle = async () => {
@@ -63,9 +64,9 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
         setShowLikePopup(true);
       }
 
-      // Update parent stats
+      // Update parent stats with liked status
       if (onStatsUpdate) {
-        onStatsUpdate(id, newCount, commentCount);
+        onStatsUpdate(id, newCount, commentCount, newLikedState);
       }
 
       // Make API call
@@ -79,7 +80,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
         setCurrentLikeCount(correctedCount);
 
         if (onStatsUpdate) {
-          onStatsUpdate(id, correctedCount, commentCount);
+          onStatsUpdate(id, correctedCount, commentCount, response.isLiked);
         }
       }
 
@@ -91,7 +92,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
       setCurrentLikeCount(likeCount);
 
       if (onStatsUpdate) {
-        onStatsUpdate(id, likeCount, commentCount);
+        onStatsUpdate(id, likeCount, commentCount, liked);
       }
 
       if (error.response?.status === 401) {
@@ -144,14 +145,14 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
           <div className="flex items-center gap-1.5 xs:gap-2">
             <div className="relative">
               <button
-                key={`like-${renderKey}`}
+                key={`like-btn-${id}-${isLiked}-${renderKey}`}
                 onClick={handleLikeToggle}
                 disabled={loading || isProcessing}
-                className={`flex items-center space-x-1 cursor-pointer hover:scale-110 ${(loading || isProcessing) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`flex items-center space-x-1 cursor-pointer hover:scale-110 transition-all duration-200 ${(loading || isProcessing) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isLiked ? (
                   <svg
-                    key="liked-heart"
+                    key={`liked-heart-${renderKey}`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="#ef4444"
@@ -161,7 +162,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
                   </svg>
                 ) : (
                   <svg
-                    key="unliked-heart"
+                    key={`unliked-heart-${renderKey}`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="none"
