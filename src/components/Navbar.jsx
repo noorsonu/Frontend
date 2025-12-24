@@ -190,21 +190,21 @@ export default function Navbar() {
                           <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-white/20 overflow-hidden z-50">
                             <Link
                               to="/durood"
-                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 cursor-pointer"
+                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 cursor-pointer"
                               onClick={() => setLibraryDropdown(false)}
                             >
                               Durood-e-Shareef
                             </Link>
                             <Link
                               to="/dua"
-                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 cursor-pointer"
+                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 cursor-pointer"
                               onClick={() => setLibraryDropdown(false)}
                             >
                               Dua
                             </Link>
                             <Link
                               to="/surah"
-                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 cursor-pointer"
+                              className="block px-4 py-3 text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 cursor-pointer"
                               onClick={() => setLibraryDropdown(false)}
                             >
                               Surah
