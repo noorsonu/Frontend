@@ -32,7 +32,9 @@ const PrayerTimes = () => {
         if (daysDiff > 31) {
           await updatePrayerTimesAutomatically();
         } else {
-          setPrayerTimes(response);
+          // Sort prayer times in correct order
+          const sortedPrayerTimes = sortPrayerTimes(response);
+          setPrayerTimes(sortedPrayerTimes);
         }
       } else {
         await updatePrayerTimesAutomatically();
@@ -43,11 +45,18 @@ const PrayerTimes = () => {
     }
   };
 
+  const sortPrayerTimes = (prayerTimes) => {
+    const order = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    return order.map(name => prayerTimes.find(prayer => prayer.name === name)).filter(Boolean);
+  };
+
   const updatePrayerTimesAutomatically = async () => {
     const calculatedTimes = calculatePrayerTimes();
-    setPrayerTimes(calculatedTimes);
+    // Ensure calculated times are also in correct order
+    const sortedCalculatedTimes = sortPrayerTimes(calculatedTimes);
+    setPrayerTimes(sortedCalculatedTimes);
     
-    calculatedTimes.forEach(async (prayer) => {
+    sortedCalculatedTimes.forEach(async (prayer) => {
       try {
         await api.put('/api/prayer-times', {
           name: prayer.name,

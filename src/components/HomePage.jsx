@@ -12,13 +12,21 @@ import IslamicReminders from './IslamicReminders';
 import PrayerTimes from './PrayerTimes';
 import IslamicTools from './IslamicTools';
 import Section from './layout/Section';
+import IslamicQuoteCarousel from './IslamicQuoteCarousel';
+import FloatingActionButton from './FloatingActionButton';
+import IslamicPatternBackground from './IslamicPatternBackground';
+import ScrollProgressIndicator from './ScrollProgressIndicator';
+import IslamicTimeDisplay from './IslamicTimeDisplay';
 
 
 const HomePage = () => {
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen">
+    <div className="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen relative">
+      <ScrollProgressIndicator />
+      <IslamicPatternBackground />
+      
       <Section spacing="sm">
-        <IslamicQuotes />
+        <IslamicQuoteCarousel />
       </Section>
       
       <Section>
@@ -41,8 +49,6 @@ const HomePage = () => {
         </div>
       </Section>
       
-
-      
       <Section>
         <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
           <DailyDhikr />
@@ -51,7 +57,7 @@ const HomePage = () => {
         </div>
       </Section>
       
-
+      <FloatingActionButton />
     </div>
   );
 };

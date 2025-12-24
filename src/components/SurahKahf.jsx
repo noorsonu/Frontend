@@ -137,7 +137,7 @@ const SurahKahf = () => {
       <div className="text-center mt-8">
         <button
           onClick={() => setShowFullSurah(!showFullSurah)}
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200">>
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
         >
           {showFullSurah ? 'कम दिखाएं' : 'पूरी सूरह पढ़ें'}
         </button>

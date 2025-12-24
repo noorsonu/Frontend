@@ -195,7 +195,7 @@ const PostCard = ({ id, title, image, description, dateAndTime, timeAgo, author,
                     navigate('/login');
                     return;
                   }
-                  onCommentClick(id, title);
+                  navigate(`/comments/${id}`);
                   setShowCommentPopup(true);
                 }}
                 className="flex items-center space-x-1 cursor-pointer text-gray-300 hover:text-blue-400 transition-colors">

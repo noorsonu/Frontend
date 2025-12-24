@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
-import './CommentModal.css';
 
-const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate }) => {
+const CommentsPage = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,10 +10,10 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [hiddenComments, setHiddenComments] = useState({});
-  const [currentUser] = useState('Admin');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const replyTextareaRef = useRef(null);
   const navigate = useNavigate();
+  const { postId } = useParams();
 
   const getTimeAgo = (dateString) => {
     const now = new Date();
@@ -74,11 +73,6 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
       });
       setNewComment('');
       fetchComments();
-      
-      // Update comment count in real-time
-      if (onCommentCountUpdate) {
-        onCommentCountUpdate(postId);
-      }
     } catch (error) {
       console.error('Error submitting comment:', error);
     } finally {
@@ -103,11 +97,6 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
       setReplyText('');
       setReplyingTo(null);
       fetchComments();
-      
-      // Update comment count in real-time
-      if (onCommentCountUpdate) {
-        onCommentCountUpdate(postId);
-      }
     } catch (error) {
       console.error('Error submitting reply:', error);
     }
@@ -138,19 +127,12 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
       return 'ml-3 xs:ml-4 sm:ml-6 border-l border-gray-500 pl-1 xs:pl-2';
     };
 
-    const getAvatarSize = (depth) => {
-      if (depth === 0) return 'w-6 h-6 xs:w-7 xs:h-7 text-xs xs:text-sm';
-      if (depth === 1) return 'w-5 h-5 xs:w-6 xs:h-6 text-xs';
-      if (depth === 2) return 'w-4 h-4 xs:w-5 xs:h-5 text-xs';
-      return 'w-3 h-3 xs:w-4 xs:h-4 text-xs';
-    };
-
     return (
       <div className={getIndentStyle(depth)}>
-        <div className={`bg-gray-800/60 rounded-xl p-3 sm:p-4 mb-3 border border-gray-600/30 shadow-sm hover:shadow-md transition-shadow duration-200 backdrop-blur-md`}>
+        <div className="bg-gray-800/60 rounded-xl p-3 sm:p-4 mb-3 border border-gray-600/30 shadow-sm hover:shadow-md transition-shadow duration-200 backdrop-blur-md">
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center">
-              <div className={`w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm`}>
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
                 {(comment.authorName || comment.author?.name || 'U')[0].toUpperCase()}
               </div>
               <div className="ml-3">
@@ -170,7 +152,7 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
               {hasReplies && isTopLevel && (
                 <button
                   onClick={() => toggleCommentVisibility(comment.id)}
-                  className="text-xs text-green-400 hover:text-green-300 px-2 py-1 rounded-md hover:bg-gray-700/50 transition-colors duration-200"
+                  className="text-xs text-green-400 hover:text-green-300 px-2 py-1 rounded-md hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer"
                 >
                   {isHidden ? `View ${totalRepliesCount} ${totalRepliesCount === 1 ? 'reply' : 'replies'}` : 'Hide'}
                 </button>
@@ -184,7 +166,7 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
                   setReplyingTo(replyingTo === comment.id ? null : comment.id);
                   setReplyText('');
                 }}
-                className="text-green-400 hover:text-green-300 text-xs px-2 py-1 rounded-md hover:bg-gray-700/50 transition-colors duration-200"
+                className="text-green-400 hover:text-green-300 text-xs px-2 py-1 rounded-md hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer"
               >
                 Reply
               </button>
@@ -202,9 +184,7 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Write a reply..."
-                className="w-full bg-gray-900/60 border border-gray-600/50 rounded-md xs:rounded-lg sm:rounded-xl px-2 py-1.5 xs:px-3 xs:py-2 sm:px-4 sm:py-3 text-white placeholder-gray-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/30 focus:outline-none text-xs sm:text-sm backdrop-blur-md transition-all duration-300 hover:bg-gray-900/80 focus:bg-gray-900/90"
-                style={{ direction: 'ltr', textAlign: 'left' }}
-                dir="ltr"
+                className="w-full bg-gray-900/60 border-2 border-green-500 rounded-md xs:rounded-lg sm:rounded-xl px-2 py-1.5 xs:px-3 xs:py-2 sm:px-4 sm:py-3 text-white placeholder-gray-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/50 focus:outline-none text-xs sm:text-sm backdrop-blur-md transition-none hover:bg-gray-900/80"
                 autoFocus
               />
               <div className="flex gap-1 xs:gap-1.5 sm:gap-2">
@@ -244,61 +224,56 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
   };
 
   useEffect(() => {
-    // Check authentication status
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
     
-    if (isOpen) {
+    if (postId) {
       fetchComments();
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, postId]);
-
-  if (!isOpen) return null;
+  }, [postId]);
 
   return (
-    <div className="comment-modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden z-[9999]">
-      <div className="comment-modal-content bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 rounded-2xl shadow-2xl w-full sm:w-[95%] md:w-[90%] lg:w-[80%] xl:w-[70%] 2xl:w-[60%] h-[90vh] sm:h-[85vh] md:h-[80vh] max-h-none overflow-hidden border-2 border-gray-600/30 flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b-2 border-gray-600/30 bg-gradient-to-r from-slate-800/60 to-gray-800/60 backdrop-blur-md">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+      {/* Header */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-800/90 to-gray-800/90 backdrop-blur-md border-b border-gray-600/30 p-4">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-600/20 rounded-full border border-green-500/30">
-              <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-full transition-colors duration-200"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
               </svg>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white">Discussion</h3>
-              <p className="text-sm text-gray-300">{comments.length} {comments.length === 1 ? 'comment' : 'comments'}</p>
+            </button>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-600/20 rounded-full border border-green-500/30">
+                <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">Comments</h1>
+                <p className="text-sm text-gray-300">{comments.length} {comments.length === 1 ? 'comment' : 'comments'}</p>
+              </div>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-full transition-colors duration-200"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
         </div>
+      </div>
 
-        {/* Comments Area */}
-        <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-gradient-to-br from-slate-800/30 to-gray-800/30" style={{ scrollBehavior: 'smooth' }}>
+      <div className="max-w-4xl mx-auto p-4">
+        {/* Comments Section */}
+        <div className="mb-6">
           {loading ? (
             <div className="flex justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
             </div>
           ) : comments.length === 0 ? (
-            <p className="text-gray-400 text-center py-4 xs:py-6 text-xs xs:text-sm">
+            <p className="text-gray-400 text-center py-8">
               {isAuthenticated ? 'No comments yet. Be the first to comment!' : 'No comments yet. Login to comment!'}
             </p>
           ) : (
-            <div className="space-y-1 xs:space-y-2 sm:space-y-3">
+            <div className="space-y-3">
               {comments.map((comment, index) => (
                 <CommentItem key={comment.id || index} comment={comment} depth={0} />
               ))}
@@ -306,15 +281,15 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
           )}
         </div>
 
-        {/* Comment Input Area */}
-        <div className="p-4 sm:p-6 border-t-2 border-gray-600/30 bg-gradient-to-r from-slate-800/60 to-gray-800/60 backdrop-blur-md">
+        {/* Comment Input */}
+        <div className="sticky bottom-0 bg-gradient-to-r from-slate-800/90 to-gray-800/90 backdrop-blur-md border-t border-gray-600/30 p-4 rounded-t-xl">
           {isAuthenticated ? (
             <div className="space-y-4">
               <div className="bg-gray-800/60 rounded-xl p-4 border border-gray-600/30 backdrop-blur-md">
                 <textarea
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Share your thoughts and join the conversation..."
+                  placeholder="Share your thoughts..."
                   rows="4"
                   className="w-full bg-gray-900/60 border-2 border-gray-600/50 rounded-lg px-4 py-3 text-white placeholder-gray-400 text-base outline-none resize-none leading-relaxed focus:border-green-500 focus:ring-2 focus:ring-green-500/30 transition-all duration-200 backdrop-blur-sm"
                 />
@@ -328,7 +303,7 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
                   <button
                     onClick={submitComment}
                     disabled={!newComment.trim() || submitting || newComment.length > 500}
-                    className="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
                   >
                     {submitting ? (
                       <>
@@ -354,11 +329,11 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 <p className="text-white mb-4 text-lg font-medium">Join the conversation!</p>
-                <p className="text-gray-300 mb-6">Please login to share your thoughts and engage with the community.</p>
+                <p className="text-gray-300 mb-6">Please login to share your thoughts.</p>
               </div>
               <button
                 onClick={() => navigate('/login')}
-                className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 text-base font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-base font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer"
               >
                 Login to Comment
               </button>
@@ -370,4 +345,4 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, onCommentCountUpdate
   );
 };
 
-export default CommentModal;
+export default CommentsPage;

@@ -41,31 +41,32 @@ const CommentItem = ({
 
   return (
     <div className={getIndentStyle(depth)}>
-      <div className={`bg-gradient-to-br ${depth > 2 ? 'from-slate-700 via-gray-700 to-slate-600' : 'from-slate-800 via-purple-900/20 to-blue-900/20'} rounded-lg p-${depth > 2 ? '2' : '3'} mb-2 border ${depth > 2 ? 'border-slate-500/30' : 'border-purple-500/20'} backdrop-blur-sm`}>
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex items-center">
+      <div className={`bg-gray-800/60 rounded-lg p-2 sm:p-3 mb-2 border border-gray-600/30 hover:bg-gray-800/80 transition-colors duration-200`}>
+        <div className="flex items-start justify-between mb-1.5">
+          <div className="flex items-center gap-2">
             <Avatar 
               name={comment.authorName || comment.author?.name || 'U'} 
-              size={depth === 0 ? 'lg' : depth === 1 ? 'md' : depth === 2 ? 'sm' : 'xs'}
+              size={depth === 0 ? 'md' : 'sm'}
             />
-            <div className="ml-2">
-              <p className={`text-white font-medium ${depth > 2 ? 'text-xs' : 'text-sm'}`}>
+            <div>
+              <p className="text-white font-medium text-sm">
                 {comment.authorName || comment.user?.name || 'User'}
                 {comment.replyToUser && (
-                  <span className="text-blue-400 ml-1">→ {comment.replyToUser}</span>
+                  <span className="text-blue-400 ml-1 text-xs">→ {comment.replyToUser}</span>
                 )}
               </p>
               <p className="text-gray-400 text-xs">{new Date(comment.createdAt).toLocaleString()}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-1">
             {hasReplies && isTopLevel && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => toggleCommentVisibility(comment.id)}
+                className="text-xs px-2 py-1"
               >
-                {isHidden ? `View ${totalRepliesCount} more ${totalRepliesCount === 1 ? 'reply' : 'replies'}` : 'Hide'}
+                {isHidden ? `+${totalRepliesCount}` : 'Hide'}
               </Button>
             )}
             <Button
@@ -75,12 +76,13 @@ const CommentItem = ({
                 setReplyingTo(replyingTo === comment.id ? null : comment.id);
                 setReplyText('');
               }}
+              className="text-xs px-2 py-1"
             >
               Reply
             </Button>
           </div>
         </div>
-        <p className={`text-gray-300 ${depth > 2 ? 'text-xs' : 'text-sm'} ml-${depth > 2 ? '6' : '9'} break-words`}>
+        <p className="text-gray-300 text-sm ml-8 break-words leading-relaxed">
           {comment.content}
         </p>
       </div>

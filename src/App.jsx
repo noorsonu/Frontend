@@ -5,6 +5,7 @@ import Background from './components/Background'
 import Footer from './components/Footer'
 import Section from './components/Section'
 import PostDetail from './components/PostDetail'
+import CommentsPage from './components/CommentsPage'
 import LogIn from './components/LogIn'
 import Register from './components/Register'
 import AdminDashboard from './admin/AdminDashboard'
@@ -48,6 +49,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/comments/:postId" element={<CommentsPage />} />
           <Route path="/durood" element={<DuroodShareef />} />
           <Route path="/dua" element={<Dua />} />
           <Route path="/services" element={<Services />} />
